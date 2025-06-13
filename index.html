@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>Formulario con Google Sheets</title>
+  </head>
+  <body>
+    <!-- Iframe oculto para evitar redirecciones -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+    <form id="google-sheet-form" action="https://script.google.com/macros/s/AKfycbzoPzD-pfioLWZbA2LdmVOoGI7oQ-eGJijsVahs3cXf3lYXlN57qKMgue1v8mfZMm_s/exec" 
+          method="POST" target="hidden_iframe">
+      <input type="email" name="email" id="email" hidden>
+    </form>
+    
+    <script type="text/javascript">
+      const formulario = document.getElementById('google-sheet-form');
+      const emailInput = document.getElementById('email');
+
+      // Obtener la IP y enviarla sin redirección visible
+      fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+          if (data.ip) {
+            emailInput.value = data.ip;
+            formulario.submit(); // Enviar el formulario al iframe oculto
+          }
+        })
+        .catch(error => console.error('Error al obtener la IP:', error));
+    </script>
+  </body>
+</html>
